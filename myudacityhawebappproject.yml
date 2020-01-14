@@ -46,7 +46,7 @@ Resources:
     Properties: 
       InternetGatewayId: !Ref InternetGateway
       VpcId: !Ref VPC
-      
+
   PrivateSubnet1: 
         Type: AWS::EC2::Subnet
         Properties:
@@ -92,6 +92,12 @@ Resources:
                 Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
 
   NatGateway1EIP:
+        Type: AWS::EC2::EIP
+        DependsOn: InternetGatewayAttachment
+        Properties: 
+            Domain: vpc
+
+  NatGateway2EIP:
         Type: AWS::EC2::EIP
         DependsOn: InternetGatewayAttachment
         Properties: 
