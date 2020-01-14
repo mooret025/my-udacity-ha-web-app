@@ -55,8 +55,28 @@ Resources:
               - Key: Name 
                 Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
   
+  PublicSubnet1: 
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 0, !GetAZs '' ]
+          CidrBlock: !Ref PublicSubnet1CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              - Key: Name 
+                Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
 
-
+  PublicSubnet2: 
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 1, !GetAZs '' ]
+          CidrBlock: !Ref PublicSubnet2CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              - Key: Name 
+                Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
+                
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
   #   Type: AWS::IAM::InstanceProfile
