@@ -1,3 +1,5 @@
 .DS_Store
+# ignore all .sh files
+*.sh
 create.sh
 update.sh
