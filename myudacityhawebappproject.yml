@@ -26,6 +26,13 @@ Resources:
         - Key: Name
           Value: EnvironmentName
 
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+
   PrivateSubnet1: 
         Type: AWS::EC2::Subnet
         Properties:
@@ -47,6 +54,8 @@ Resources:
           Tags: 
               - Key: Name 
                 Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
+  
+
 
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
