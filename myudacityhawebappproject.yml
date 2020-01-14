@@ -7,11 +7,11 @@ Parameters:
     Description: An environment name that will be prefixed to resource names
     Type: String
 
-  PRIVNET1:
+  PrivateSubnet1CIDR:
     Description: CIDR notation for private subnet 1 in first AZ
     Type: String
 
-  PRIVNET2:
+  PrivateSubnet2CIDR:
     Description: CIDR notation for private subnet 2 in second AZ
     Type: String
         
@@ -26,23 +26,23 @@ Resources:
         - Key: Name
           Value: EnvironmentName
 
-  PRIVNET1: 
+  PrivateSubnet1: 
         Type: AWS::EC2::Subnet
         Properties:
             VpcId: !Ref VPC
             AvailabilityZone: !Select [ 0, !GetAZs '' ]
-            CidrBlock: !Ref PRIVNET1CIDR
+            CidrBlock: !Ref PrivateSubnet1CIDR
             MapPublicIpOnLaunch: false
             Tags: 
                 - Key: Name 
                   Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
 
-  PRIVNET2: 
+  PrivateSubnet2: 
       Type: AWS::EC2::Subnet
       Properties:
           VpcId: !Ref VPC
           AvailabilityZone: !Select [ 1, !GetAZs '' ]
-          CidrBlock: !Ref PRIVNET2CIDR
+          CidrBlock: !Ref PrivateSubnet2CIDR
           MapPublicIpOnLaunch: false
           Tags: 
               - Key: Name 
