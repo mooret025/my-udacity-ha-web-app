@@ -14,6 +14,14 @@ Parameters:
   PrivateSubnet2CIDR:
     Description: CIDR notation for private subnet 2 in second AZ
     Type: String
+
+  PublicSubnet1CIDR:
+    Description: CIDR notation for public subnet 1 in first AZ
+    Type: String
+
+  PublicSubnet2CIDR:
+    Description: CIDR notation for public subnet 2 in second AZ
+    Type: String
         
 Resources:
 
@@ -76,7 +84,7 @@ Resources:
           Tags: 
               - Key: Name 
                 Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
-                
+
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
   #   Type: AWS::IAM::InstanceProfile
