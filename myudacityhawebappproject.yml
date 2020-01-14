@@ -4,8 +4,16 @@ Description: >
 Parameters:
 # whatever you consider a changing value, put it as a parameter instead of hard-coding it into your script
   EnvironmentName:
-        Description: An environment name that will be prefixed to resource names
-        Type: String
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  PRIV-NET1:
+    Description: CIDR notation for private subnet 1 in first AZ
+    Type: String
+
+  PRIV-NET2:
+    Description: CIDR notation for private subnet 2 in second AZ
+    Type: String
         
 Resources:
 
@@ -29,16 +37,16 @@ Resources:
                 - Key: Name 
                   Value: !Sub ${EnvironmentName} Private Subnet (AZ1)
 
-    PRIV-NET2: 
-        Type: AWS::EC2::Subnet
-        Properties:
-            VpcId: !Ref VPC
-            AvailabilityZone: !Select [ 1, !GetAZs '' ]
-            CidrBlock: !Ref PRIV-NET2CIDR
-            MapPublicIpOnLaunch: false
-            Tags: 
-                - Key: Name 
-                  Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
+  PRIV-NET2: 
+      Type: AWS::EC2::Subnet
+      Properties:
+          VpcId: !Ref VPC
+          AvailabilityZone: !Select [ 1, !GetAZs '' ]
+          CidrBlock: !Ref PRIV-NET2CIDR
+          MapPublicIpOnLaunch: false
+          Tags: 
+              - Key: Name 
+                Value: !Sub ${EnvironmentName} Private Subnet (AZ2)
 
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
