@@ -123,7 +123,14 @@ Resources:
           Value: !Sub ${EnvironmentName} Public Routes
       VpcId: !Ref VPC
   
-    
+  DefaultPublicRoute:
+    Type: "AWS::EC2::Route"
+    Properties:
+      DependsOn: InternetGatewayAttachment
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref PublicRouteTable
+  
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
   #   Type: AWS::IAM::InstanceProfile
