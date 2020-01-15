@@ -126,7 +126,6 @@ Resources:
   DefaultPublicRoute:
     Type: "AWS::EC2::Route"
     Properties:
-      DependsOn: InternetGatewayAttachment
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
       RouteTableId: !Ref PublicRouteTable
