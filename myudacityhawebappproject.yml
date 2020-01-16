@@ -93,13 +93,13 @@ Resources:
 
   NatGateway1EIP:
     Type: AWS::EC2::EIP
-    DependsOn: InternetGatewayAttachment
+    # DependsOn: InternetGatewayAttachment
     Properties: 
         Domain: vpc
 
   NatGateway2EIP:
     Type: AWS::EC2::EIP
-    DependsOn: InternetGatewayAttachment
+    # DependsOn: InternetGatewayAttachment
     Properties: 
         Domain: vpc
 
