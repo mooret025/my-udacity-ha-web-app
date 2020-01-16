@@ -140,7 +140,20 @@ Resources:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet2
   
+  PrivatRouteTable1:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      Tags:
+        - Tag
+      VpcId: !Ref VPC
   
+  PrivatRouteTable2:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      Tags:
+        - Tag
+      VpcId: !Ref VPC
+
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
   #   Type: AWS::IAM::InstanceProfile
