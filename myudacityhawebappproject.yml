@@ -32,7 +32,7 @@ Resources:
       EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: EnvironmentName
+          Value: !Ref EnvironmentName
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
