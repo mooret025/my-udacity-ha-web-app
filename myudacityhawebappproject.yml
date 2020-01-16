@@ -188,6 +188,25 @@ Resources:
       RouteTableId: !Ref PrivatRouteTable2
       SubnetId: !Ref PrivateSubnet2
 
+  LBSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Allow all http traffic to load balancer
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} LB Security Group
+      VpcId: !Ref VPC
+  
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
   # ProfileWithRolesForOurApp:
   #   Type: AWS::IAM::InstanceProfile
@@ -203,5 +222,12 @@ Resources:
   #         cd /var/www/html
   #         aws s3 cp s3://udacity-demo-1/udacity.zip .
   #         unzip -o udacity.zip
-  # Outputs: 
-  #Bonus points for useful outputs!
+Outputs:
+
+  VPC: 
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+    Export:
+      Name: !Sub ${EnvironmentName}-VPCID
+
+#Bonus points for useful outputs!
