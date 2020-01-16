@@ -144,14 +144,16 @@ Resources:
     Type: "AWS::EC2::RouteTable"
     Properties:
       Tags:
-        - Tag
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Private Routes (AZ1)
       VpcId: !Ref VPC
   
   PrivatRouteTable2:
     Type: "AWS::EC2::RouteTable"
     Properties:
       Tags:
-        - Tag
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Private Routes (AZ2)
       VpcId: !Ref VPC
 
   DefaultPrivateRoute1:
