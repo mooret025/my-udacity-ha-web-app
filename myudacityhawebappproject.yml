@@ -227,26 +227,44 @@ Resources:
       VpcId: !Ref VPC
   
   #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
-  # ProfileWithRolesForOurApp:
-  #   Type: AWS::IAM::InstanceProfile
-  #   Properties: 
-  #     Roles:
-  #       - UdacityS3ReadOnlyEC2
+  ProfileWithRolesForOurApp:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - UdacityS3ReadOnlyEC2
   
-  #         #!/bin/bash
-  #         apt-get update -y
-  #         apt-get install unzip awscli -y
-  #         apt-get install apache2 -y
-  #         systemctl start apache2.service
-  #         cd /var/www/html
-  #         aws s3 cp s3://udacity-demo-1/udacity.zip .
-  #         unzip -o udacity.zip
-Outputs:
+          #!/bin/bash
+          apt-get update -y
+          apt-get install unzip awscli -y
+          apt-get install apache2 -y
+          systemctl start apache2.service
+          cd /var/www/html
+          aws s3 cp s3://udacity-demo-1/udacity.zip .
+          unzip -o udacity.zip
+  
+  LaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
+    Properties:
+      BlockDeviceMappings:
+      - DeviceName: "/dev/sdk"
+        Ebs:
+          VolumeSize: '10'
+      IamInstanceProfile: !Ref ProfileWithRolesForOurApp
+      ImageId: ami-06d51e91cea0dac8d
+      InstanceType: t2.micro # change to t2.medium to build to spec
+      KeyName: udacity_key
+      SecurityGroups:
+        - !Ref WebServerSecurityGroup
+      UserData: 
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update -y
+          apt-get install unzip awscli -y
+          apt-get install apache2 -y
+          systemctl start apache2.service
+          cd /var/www/html
+          aws s3 cp s3://udacity-demo-1/udacity.zip .
+          unzip -o udacity.zip
 
-  VPC: 
-    Description: A reference to the created VPC
-    Value: !Ref VPC
-    Export:
-      Name: !Sub ${EnvironmentName}-VPCID
-
+# Outputs:
 #Bonus points for useful outputs!
