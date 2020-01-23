@@ -94,7 +94,8 @@ Resources:
   ApplicationLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      SecurityGroups: !Ref LBSecurityGroup
+      SecurityGroups: 
+        - !GetAtt "LBSecurityGroup.GroupId"
       Subnets:
       - Fn::ImportValue: !Sub "${EnvironmentName}-PUB1-SN"
       - Fn::ImportValue: !Sub "${EnvironmentName}-PUB2-SN"
@@ -102,5 +103,47 @@ Resources:
         - Key: Name
           Value: !Sub ${EnvironmentName} ALB
       Type: application
+
+  ALBListener:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+      - Type: forward
+        TargetGroupArn: !Ref ALBTargetGroup
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  ALBListenerRule:
+    Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
+    Properties:
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroup
+      Conditions:
+        - Field: path-pattern
+          Values: [/]
+      ListenerArn: !Ref ALBListener
+      Priority: 1
+  
+  ALBTargetGroup:
+    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPath: /
+      HealthCheckPort: '80'
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 8
+      HealthyThresholdCount: 2
+      Port: 80
+      Protocol: HTTP
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Target Group
+      UnhealthyThresholdCount: 5
+      VpcId: !ImportValue UdacityHaWebAppProject-VPCID
+
+
+      
 # Outputs:
 #Bonus points for useful outputs!
