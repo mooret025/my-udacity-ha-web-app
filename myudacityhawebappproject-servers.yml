@@ -76,8 +76,7 @@ Resources:
           VolumeSize: '10'
       IamInstanceProfile: !Ref ProfileWithRolesForOurApp
       ImageId: ami-06d51e91cea0dac8d
-      InstanceType: t2.micro # change to t2.medium to build to spec
-      KeyName: udacity_key
+      InstanceType: t2.micro # change to t2.small to build to spec
       SecurityGroups:
         - !Ref WebServerSecurityGroup
       UserData: 
