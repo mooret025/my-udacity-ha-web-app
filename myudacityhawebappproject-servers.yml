@@ -144,7 +144,12 @@ Resources:
       UnhealthyThresholdCount: 5
       VpcId: !ImportValue UdacityHaWebAppProject-VPCID
 
-
-      
-# Outputs:
-#Bonus points for useful outputs!
+Outputs:
+  URL:
+    Description: URL of the website
+    Value: !Join 
+      - ''
+      - - 'http://'
+        - !GetAtt 
+          - ApplicationLoadBalancer
+          - DNSName
